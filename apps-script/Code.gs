@@ -1,5 +1,5 @@
 /**
- * 모바일 청첩장 방명록 - Google Apps Script
+ * 모바일 청첩장 방명록 · 참석 의사(RSVP) - Google Apps Script
  *
  * 방명록용 구글 스프레드시트 > 확장 프로그램 > Apps Script 에 이 코드를 붙여넣고
  * "웹 앱"으로 배포하세요. 배포 방법은 apps-script/README.md 참고.
@@ -10,6 +10,8 @@
 
 const SHEET_NAME = 'guestbook';
 const HEADERS = ['id', 'createdAt', 'name', 'message', 'pwHash', 'deleted'];
+const RSVP_SHEET = 'rsvp';
+const RSVP_HEADERS = ['createdAt', 'side', 'name', 'attend', 'count', 'meal', 'memo'];
 const LIMITS = { name: 20, message: 300, passwordMin: 4, passwordMax: 20 };
 const MAX_ITEMS = 300;
 
@@ -41,6 +43,7 @@ function doPost(e) {
   try {
     if (body.action === 'create') return json_(create_(body));
     if (body.action === 'delete') return json_(remove_(body));
+    if (body.action === 'rsvp') return json_(rsvp_(body));
     return json_({ ok: false, error: 'INVALID' });
   } finally {
     lock.releaseLock();
@@ -81,12 +84,32 @@ function remove_(body) {
   return { ok: true };
 }
 
-function getSheet_() {
+function rsvp_(body) {
+  if (body.website) return { ok: true };
+
+  const side = String(body.side || '');
+  const attend = String(body.attend || '');
+  const name = String(body.name || '').trim();
+  const memo = String(body.memo || '').trim().slice(0, 100);
+  if (['신랑측', '신부측'].indexOf(side) < 0) return { ok: false, error: 'INVALID' };
+  if (['참석', '불참'].indexOf(attend) < 0) return { ok: false, error: 'INVALID' };
+  if (!name || name.length > LIMITS.name) return { ok: false, error: 'INVALID' };
+
+  const count = attend === '참석' ? Math.min(Math.max(parseInt(body.count, 10) || 1, 1), 6) : 0;
+  const meal = attend === '참석' && ['예정', '안함', '미정'].indexOf(body.meal) >= 0 ? body.meal : '-';
+
+  getSheet_(RSVP_SHEET, RSVP_HEADERS).appendRow([new Date(), side, safeCell_(name), attend, count, meal, safeCell_(memo)]);
+  return { ok: true };
+}
+
+function getSheet_(name, headers) {
+  name = name || SHEET_NAME;
+  headers = headers || HEADERS;
   const ss = SpreadsheetApp.getActiveSpreadsheet();
-  let sheet = ss.getSheetByName(SHEET_NAME);
-  if (!sheet) sheet = ss.insertSheet(SHEET_NAME);
+  let sheet = ss.getSheetByName(name);
+  if (!sheet) sheet = ss.insertSheet(name);
   if (sheet.getLastRow() === 0) {
-    sheet.appendRow(HEADERS);
+    sheet.appendRow(headers);
     sheet.setFrozenRows(1);
   }
   return sheet;

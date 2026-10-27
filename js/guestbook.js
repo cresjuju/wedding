@@ -5,7 +5,7 @@
   if (!section) return;
 
   var app = window.Invitation;
-  var endpoint = (section.dataset.endpoint || '').trim();
+  var endpoint = (document.querySelector('.invitation').dataset.endpoint || '').trim();
   var PAGE = 5;
 
   var listEl = document.getElementById('gb-list');

@@ -195,6 +195,32 @@ a { color: inherit; -webkit-tap-highlight-color: transparent; }
 }
 .btn-copy:active { background: var(--line); }
 
+/* ===== 캘린더 추가 ===== */
+.cal-add { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 24px; }
+.cal-add .btn { text-decoration: none; }
+
+/* ===== 참석 의사 ===== */
+.rsvp__desc { margin: -12px 0 28px; font-size: 14px; color: var(--text-sub); }
+.rsvp__done { margin: -12px 0 20px; font-size: 14px; color: var(--accent-dark); }
+.rsvp .btn[hidden] { display: none; }
+
+.seg { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; border: 0; min-width: 0; }
+.seg legend { width: 100%; margin-bottom: 6px; padding: 0; }
+.seg label { flex: 1 1 0; min-width: 0; }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg span {
+  display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 8px;
+  border: 1px solid var(--line); border-radius: 8px; background: #fff; font-size: 14px; text-align: center; cursor: pointer;
+}
+.seg input:checked + span { border-color: var(--accent); background: var(--accent); color: #fff; }
+.seg input:focus-visible + span { outline: 2px solid var(--accent-dark); outline-offset: 2px; }
+.rsvp__attend-only { display: flex; flex-direction: column; gap: 14px; }
+.rsvp__attend-only[hidden] { display: none; }
+.field select {
+  width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px;
+  background: #fff; color: var(--text); font: inherit; font-size: 16px;
+}
+
 /* ===== 방명록 ===== */
 .guestbook__desc { margin: -12px 0 24px; font-size: 14px; color: var(--text-sub); }
 .guestbook__status { margin: 0 0 16px; font-size: 13px; color: var(--text-sub); }

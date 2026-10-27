@@ -1,0 +1,21 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//wedding-invitation//KO
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:20271009-donghun-yeonju@cresjuju.github.io
+DTSTAMP:20261027T000000Z
+DTSTART:20271009T020000Z
+DTEND:20271009T040000Z
+SUMMARY:곽동훈 ♥ 유연주 결혼식
+LOCATION:월드컵컨벤션 그랜드볼룸홀 (서울 마포구 월드컵로 240)
+DESCRIPTION:모바일 청첩장: https://cresjuju.github.io/wedding/
+URL:https://cresjuju.github.io/wedding/
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:내일은 동훈 ♥ 연주의 결혼식입니다
+END:VALARM
+END:VEVENT
+END:VCALENDAR
