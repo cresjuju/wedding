@@ -142,7 +142,13 @@ a { color: inherit; -webkit-tap-highlight-color: transparent; }
 .map {
   position: relative; margin: 0 -24px; aspect-ratio: 4 / 3; background: var(--line);
 }
-.map iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.map iframe, .map__kakao { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.map__label {
+  padding: 4px 10px; border-radius: 999px; background: var(--accent); color: #fff;
+  font-size: 12px; font-weight: 700; white-space: nowrap; box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
+}
+.btn--kakao { gap: 6px; border-color: #fee500; background: #fee500; color: #191919; }
+.btn--kakao:active, .btn--kakao:hover { background: #f5dc00; }
 .map-links { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0 -24px 20px; border-bottom: 1px solid var(--line); }
 .map-link {
   display: flex; align-items: center; justify-content: center; gap: 6px;

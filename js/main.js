@@ -203,19 +203,27 @@
   });
 
   /* ---------- 공유 ---------- */
+  // og:url 이 있으면 그 주소를 공유 (주소창의 #location 같은 꼬리 제외)
+  var ogUrl = document.querySelector('meta[property="og:url"]');
+  var siteUrl = (ogUrl && ogUrl.content) || location.href.split('#')[0];
+
   $('#link-btn').addEventListener('click', function () {
-    copyText(location.href)
+    copyText(siteUrl)
       .then(function () { toast('청첩장 링크가 복사되었습니다'); })
       .catch(function () { toast('복사에 실패했습니다'); });
   });
-  $('#share-btn').addEventListener('click', function () {
-    var data = { title: document.title, text: '2027.10.09 (토) 오전 11시 · 월드컵컨벤션 그랜드볼룸홀', url: location.href };
+
+  // 카카오 공유가 불가능할 때 쓰는 기본 공유
+  function shareFallback() {
+    var data = { title: document.title, text: '2027.10.09 (토) 오전 11시 · 월드컵컨벤션 그랜드볼룸홀', url: siteUrl };
     if (navigator.share) {
       navigator.share(data).catch(function () {});
     } else {
-      copyText(location.href).then(function () { toast('링크가 복사되었습니다. 원하는 곳에 붙여넣어 주세요'); });
+      copyText(siteUrl).then(function () { toast('링크가 복사되었습니다. 원하는 곳에 붙여넣어 주세요'); });
     }
-  });
+  }
+  window.Invitation.siteUrl = siteUrl;
+  window.Invitation.shareFallback = shareFallback;
 
   /* ---------- 배경음악 ----------
      브라우저 정책상 소리 있는 자동재생은 막히는 경우가 많아서,
