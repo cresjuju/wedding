@@ -195,6 +195,49 @@ a { color: inherit; -webkit-tap-highlight-color: transparent; }
 }
 .btn-copy:active { background: var(--line); }
 
+/* ===== 방명록 ===== */
+.guestbook__desc { margin: -12px 0 24px; font-size: 14px; color: var(--text-sub); }
+.guestbook__status { margin: 0 0 16px; font-size: 13px; color: var(--text-sub); }
+.guestbook__status:empty { display: none; }
+.guestbook__list { display: flex; flex-direction: column; gap: 10px; text-align: left; }
+.gb-item {
+  position: relative; padding: 16px 44px 16px 18px; border-radius: var(--radius);
+  background: var(--bg); box-shadow: 0 2px 12px rgba(60, 40, 20, .06);
+}
+.gb-item__head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 8px; margin-bottom: 6px; }
+.gb-item__name { font-weight: 700; font-size: 14px; overflow-wrap: anywhere; }
+.gb-item__date { font-size: 12px; color: var(--text-sub); }
+.gb-item__msg { margin: 0; font-size: 14px; line-height: 1.7; white-space: pre-wrap; overflow-wrap: anywhere; }
+.gb-item__del {
+  position: absolute; top: 8px; right: 8px; width: 32px; height: 32px; padding: 0;
+  border: 0; background: none; color: var(--text-sub); font-size: 18px; line-height: 1;
+}
+.guestbook .btn { display: flex; margin-left: auto; margin-right: auto; }
+.guestbook .btn--text { margin-top: 8px; }
+.guestbook__write { margin-top: 20px; }
+.btn[hidden], .guestbook .btn[hidden] { display: none; }
+
+.gb-form { display: flex; flex-direction: column; gap: 14px; }
+.gb-form__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.field__label { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-sub); }
+.field__count { font-style: normal; font-size: 12px; }
+.field input, .field textarea {
+  width: 100%; min-width: 0; padding: 10px 12px;
+  border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--text);
+  font: inherit; font-size: 16px; /* 16px 미만이면 iOS 가 입력 시 화면을 확대함 */
+  -webkit-appearance: none; appearance: none;
+}
+.field textarea { resize: vertical; min-height: 110px; line-height: 1.6; }
+.field input:focus, .field textarea:focus { outline: none; border-color: var(--accent); }
+.gb-form__hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.gb-form__submit { width: 100%; margin-top: 4px; }
+.gb-form__submit:disabled { opacity: .6; cursor: default; }
+
+@media (max-width: 340px) {
+  .gb-form__row { grid-template-columns: 1fr; }
+}
+
 /* ===== 마무리 ===== */
 .ending { padding: 0 0 64px; text-align: center; background: var(--bg); }
 .ending__photo { aspect-ratio: 3 / 2; overflow: hidden; }

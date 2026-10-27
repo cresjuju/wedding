@@ -152,22 +152,25 @@
     if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) show(current + (dx < 0 ? 1 : -1));
   });
 
-  /* ---------- 연락하기 모달 ---------- */
+  /* ---------- 모달 (연락하기 / 방명록) ---------- */
   var openModal = null;
+  function showModal(el) {
+    if (openModal) hideModal();
+    openModal = el;
+    openModal.hidden = false;
+    lock();
+  }
+  function hideModal() {
+    if (!openModal) return;
+    openModal.hidden = true;
+    openModal = null;
+    unlock();
+  }
   $$('[data-open]').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      openModal = document.getElementById(btn.dataset.open);
-      openModal.hidden = false;
-      lock();
-    });
+    btn.addEventListener('click', function () { showModal(document.getElementById(btn.dataset.open)); });
   });
   $$('.modal [data-close]').forEach(function (el) {
-    el.addEventListener('click', function () {
-      if (!openModal) return;
-      openModal.hidden = true;
-      openModal = null;
-      unlock();
-    });
+    el.addEventListener('click', hideModal);
   });
 
   document.addEventListener('keydown', function (e) {
@@ -176,9 +179,12 @@
       if (e.key === 'ArrowLeft') show(current - 1);
       if (e.key === 'ArrowRight') show(current + 1);
     } else if (openModal && e.key === 'Escape') {
-      openModal.hidden = true; openModal = null; unlock();
+      hideModal();
     }
   });
+
+  // guestbook.js 등 다른 스크립트에서 쓰는 공용 기능
+  window.Invitation = { toast: toast, showModal: showModal, hideModal: hideModal };
 
   /* ---------- 계좌 아코디언 ---------- */
   $$('.accordion__head').forEach(function (head) {

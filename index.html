@@ -8,12 +8,12 @@
   <title>곽동훈 ♥ 유연주 결혼합니다</title>
   <meta name="description" content="2027년 10월 9일 토요일 오전 11시, 월드컵컨벤션 그랜드볼룸홀">
 
-  <!-- 공유 미리보기 (배포 후 og:url / og:image 를 실제 절대 URL 로 바꿔주세요) -->
+  <!-- 공유 미리보기 (주소가 바뀌면 og:url / og:image 도 함께 수정) -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="곽동훈 ♥ 유연주 결혼합니다">
   <meta property="og:description" content="2027.10.09 (토) 오전 11시 · 월드컵컨벤션 그랜드볼룸홀">
-  <meta property="og:image" content="images/og.jpg">
-  <meta property="og:url" content="">
+  <meta property="og:image" content="https://cresjuju.github.io/wedding/images/og.jpg">
+  <meta property="og:url" content="https://cresjuju.github.io/wedding/">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -219,7 +219,20 @@
     </div>
   </section>
 
-  <!-- 7. 마무리 -->
+  <!-- 7. 방명록
+       data-endpoint 에 Apps Script 웹 앱 URL(…/exec)을 넣으면 구글 시트에 저장됩니다.
+       비워두면 이 브라우저에만 저장되는 미리보기 모드로 동작합니다. -->
+  <section class="section guestbook reveal" id="guestbook" data-endpoint="https://script.google.com/macros/s/AKfycbxBPKWA0kTe3szk5qqtvOQweOWtEqsatmWMyK4cEBV2siaIEkhGwUQi63rdr1XgAabO/exec">
+    <p class="section__label en">GUESTBOOK</p>
+    <h2 class="section__title">방명록</h2>
+    <p class="guestbook__desc">두 사람에게 따뜻한 축하의 한마디를 남겨주세요.</p>
+    <p class="guestbook__status" id="gb-status">불러오는 중…</p>
+    <ul class="guestbook__list" id="gb-list"></ul>
+    <button type="button" class="btn btn--text" id="gb-more" hidden>더보기 ∨</button>
+    <button type="button" class="btn btn--fill guestbook__write" data-open="gb-write">방명록 작성하기</button>
+  </section>
+
+  <!-- 8. 마무리 -->
   <section class="ending reveal">
     <figure class="ending__photo">
       <img src="images/ending.jpg" alt="함께 걷는 신랑 신부" loading="lazy">
@@ -263,6 +276,50 @@
   </div>
 </div>
 
+<!-- 방명록 작성 모달 -->
+<div class="modal" id="gb-write" role="dialog" aria-modal="true" aria-labelledby="gb-write-title" hidden>
+  <div class="modal__backdrop" data-close></div>
+  <div class="modal__panel">
+    <button type="button" class="modal__close" data-close aria-label="닫기">×</button>
+    <h3 class="modal__title" id="gb-write-title">방명록 작성</h3>
+    <form class="gb-form" id="gb-form" novalidate>
+      <div class="gb-form__row">
+        <label class="field">
+          <span class="field__label">이름</span>
+          <input type="text" name="name" maxlength="20" autocomplete="name" required>
+        </label>
+        <label class="field">
+          <span class="field__label">비밀번호</span>
+          <input type="password" name="password" maxlength="20" minlength="4" autocomplete="new-password" placeholder="삭제 시 필요" required>
+        </label>
+      </div>
+      <label class="field">
+        <span class="field__label">메시지 <em class="field__count"><b id="gb-count">0</b>/300</em></span>
+        <textarea name="message" rows="5" maxlength="300" required></textarea>
+      </label>
+      <!-- 스팸봇 방지용: 사람에게는 보이지 않음 -->
+      <input type="text" name="website" class="gb-form__hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button type="submit" class="btn btn--fill gb-form__submit">등록하기</button>
+    </form>
+  </div>
+</div>
+
+<!-- 방명록 삭제 모달 -->
+<div class="modal" id="gb-delete" role="dialog" aria-modal="true" aria-labelledby="gb-delete-title" hidden>
+  <div class="modal__backdrop" data-close></div>
+  <div class="modal__panel">
+    <button type="button" class="modal__close" data-close aria-label="닫기">×</button>
+    <h3 class="modal__title" id="gb-delete-title">방명록 삭제</h3>
+    <form class="gb-form" id="gb-delete-form" novalidate>
+      <label class="field">
+        <span class="field__label">작성 시 입력한 비밀번호</span>
+        <input type="password" name="password" maxlength="40" autocomplete="current-password" required>
+      </label>
+      <button type="submit" class="btn btn--fill gb-form__submit">삭제하기</button>
+    </form>
+  </div>
+</div>
+
 <!-- 갤러리 뷰어 -->
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="사진 크게 보기" hidden>
   <button type="button" class="lightbox__close" data-close aria-label="닫기">×</button>
@@ -275,5 +332,6 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="js/main.js"></script>
+<script src="js/guestbook.js"></script>
 </body>
 </html>
